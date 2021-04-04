@@ -22,19 +22,27 @@ class Graph:
         
         print("Adjacency Matrix: ")
         self.printAdjm()
+
+        print()
     
     def printAdjm(self):
         for row in self.adjm:
             print(row)
+
+    def findNode(self, name):
+      for node in self.nodes:
+        if (node.name == name):
+          return node
     
-def makeGraphFromTxt(file_name):
+def makeGraphFromTxt(file_name, end):
     # Membuat graph dari file eksternal .txt
     # Variabel
     lines = []
     all_nodes = []
     
     # Open dan read file
-    f = open(f"../test/{file_name}.txt", "r")
+    # f = open(f"../test/{file_name}.txt", "r")
+    f = open(f"./test/{file_name}.txt", "r")
 
     # Iterate line file
     lines = f.readlines()
@@ -59,14 +67,23 @@ def makeGraphFromTxt(file_name):
         for i in range(len(line)):
             line[i] = line[i].replace("\n", "")
 
-        curr_node = Node(line[0], int(line[1]), int(line[2]))
+        curr_node = Node(line[0], float(line[1]), float(line[2]))
 
         graph.addNode(curr_node)
+
+    # Cari node akhir
+    for node in graph.nodes:
+      if (node.name == end):
+        endNode = node
+
+    # Add nilai heuristik masing-masing node
+    for node in graph.nodes:
+      node.calcHeuristik(endNode)
     
     # Add edge ke graph
     for i in range(len(graph.adjm)):
        for j in range(len(graph.adjm)):
-           if (graph.adjm[i][j] != 0):
-            (graph.nodes[i]).addNeighbors(graph.nodes[j], graph.adjm[i][j])
+           if (graph.adjm[i][j] == 1):
+            (graph.nodes[i]).addNeighbors(graph.nodes[j], haversineDist(graph.nodes[i], graph.nodes[j]))
 
     return graph

@@ -48,16 +48,16 @@ def makeGraphFromTxt(file_name):
         line = lines[i].split(" ")
 
         for i in range(len(line)):
-            line[i] = int(line[i].replace(" ", "").replace(".", "").replace("\n", ""))
+            line[i] = int(line[i].replace("\n", ""))
 
         graph.addAdjm(line)
 
     # Add node ke graph
     for i in range(1, size+1):
-        line = lines[i].split(" ")
+        line = lines[i].split(",")
 
         for i in range(len(line)):
-            line[i] = line[i].replace(" ", "").replace(".", "").replace("\n", "")
+            line[i] = line[i].replace("\n", "")
 
         curr_node = Node(line[0], int(line[1]), int(line[2]))
 
@@ -68,6 +68,5 @@ def makeGraphFromTxt(file_name):
        for j in range(len(graph.adjm)):
            if (graph.adjm[i][j] != 0):
             (graph.nodes[i]).addNeighbors(graph.nodes[j], graph.adjm[i][j])
-
 
     return graph

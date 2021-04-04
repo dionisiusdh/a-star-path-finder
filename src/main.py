@@ -16,6 +16,6 @@ G.addNode(N2)
 G.addNode(N3)
 
 G2 = makeGraphFromTxt("1")
-#G2.printGraph()
+G2.printGraph()
 
-haversineDistance(N1, N2)
+# haversineDistance(N1, N2)

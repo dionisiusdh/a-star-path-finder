@@ -12,6 +12,7 @@ start = input("Masukkan simpul awal: ")
 # start = "Scoop and Skoops"
 end = input("Masukkan simpul tujuan: ")
 # end = "Galaksi Bima Sakti"
+print()
 
 # Buat graf dari nama graf input
 g = makeGraphFromTxt(graphName, end)
@@ -83,6 +84,7 @@ while (q.qsize() > 0 and currNodeName != end):
 if (currNodeName == end):
     # mencetak jarak terpendek antar node awal dan tujuan
     print(f"Jarak terpendek dari {start} ke {end}: {kumulatifMeter[end]}\n")
+    print("Lintasan:")
 
     # list untuk nanti dibalikan
     reverseDirection = []

@@ -3,40 +3,40 @@ Definisi kelas Node dan method yang berhubungan dengan pemrosesan Node
 """
 from math import sin, cos, sqrt, atan2, radians
 
+
 class Node:
     def __init__(self, name, x, y):
         self.name = name            # Nama node
         self.x = x                  # Titik latitude
         self.y = y                  # Titik longitude
         self.neighbors = dict()     # Dictionary of node, menunjukkan hubungan neighbors antar Node dengan sebuah weight
-        self.parent = None          # Node parent, untuk menunjukan jalur nanti saat sudah sampai ke node tujuan
-        self.parents = []           # Array node parents, untuk menunjukan jalur nanti saat sudah sampai ke node tujuan
-        self.cost = 0.0             # Nilai g(n), actual travel distance ke node ini
         self.heuristik = 0.0        # Nilai heuristik h(n), jarak antara node dengan node yang dicari
-        
+
     def addNeighbors(self, N, weight):
         # Menambahkan neighbor self dengan node N dan bobot weight
         self.neighbors[N.name] = weight
 
     def printNode(self):
+        # mencetak node beserta simpul tetangga serta nilai heuristik ke ending node
         print(f"{self.name} at ({self.x}, {self.y})")
 
         for neighbor, weight in self.neighbors.items():
-          print(f"Neighbor: {neighbor} ({weight})")
+            print(f"Neighbor: {neighbor} ({weight})")
 
         print(f"Nilai heuristik h(n) ke simpul tujuan: {self.heuristik}")
 
         print()
-    
+
     def calcHaversineDist(self, n):
         # Menghitung jarak dari node dan node lain (n) berdasarkan longitude dan latitude
         # Menggunakan Haversine formula dalam meter
         haversineDist(self, n)
 
     def calcHeuristik(self, find):
-      # Menghitung nilai heuristik dari node ini ke node akhir yang ingin dicari
-      # Menggunakan Haversine formula dalam meter
-      self.heuristik = haversineDist(self, find)
+        # Menghitung nilai heuristik dari node ini ke node akhir yang ingin dicari
+        # Menggunakan Haversine formula dalam meter
+        self.heuristik = haversineDist(self, find)
+
 
 def haversineDist(n1, n2):
     # Menghitung jarak dari node n1 dan n2 berdasarkan longitude dan latitude

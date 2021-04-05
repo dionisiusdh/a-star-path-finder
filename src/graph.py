@@ -38,6 +38,20 @@ class Graph:
             if (node.name == name):
                 return node
 
+    def printAllNode(self):
+        # mengoutput semua pilihan node yang tersedia
+        i = 1
+
+        for node in self.nodes:
+            print(f"{i}. {node.name}")
+            i += 1
+    
+    def getAllNodeName(self):
+        # mengekstrak nama setiap node yang ada
+        res = []
+        for node in self.nodes:
+          res.append(node.name)
+        return res
 
 def makeGraphFromTxt(file_name, end):
     # Membuat graph dari file eksternal .txt
@@ -92,5 +106,47 @@ def makeGraphFromTxt(file_name, end):
                 (graph.nodes[i]).addNeighbors(
                     graph.nodes[j],
                     haversineDist(graph.nodes[i], graph.nodes[j]))
+
+    return graph
+
+def showGraphNode(file_name):
+    # Membuat graph dari file eksternal .txt
+    # dan mengoutput semua node yang tersedia
+    # Variabel
+    lines = []
+    all_nodes = []
+
+    # Open dan read file
+    # f = open(f"../test/{file_name}.txt", "r")
+    f = open(f"./test/{file_name}.txt", "r")
+
+    # Iterate line file
+    lines = f.readlines()
+
+    size = int(lines[0])
+
+    graph = Graph(size)
+
+    # Add adjacency matrix ke graph
+    for i in range(size + 1, len(lines)):
+        line = lines[i].split(" ")
+
+        for i in range(len(line)):
+            line[i] = int(line[i].replace("\n", ""))
+
+        graph.addAdjm(line)
+
+    # Add node ke graph
+    for i in range(1, size + 1):
+        line = lines[i].split(",")
+
+        for i in range(len(line)):
+            line[i] = line[i].replace("\n", "")
+
+        curr_node = Node(line[0], float(line[1]), float(line[2]))
+
+        graph.addNode(curr_node)
+
+    graph.printAllNode()
 
     return graph

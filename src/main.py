@@ -2,113 +2,149 @@ import queue
 from graph import *
 from node import *
 
-# Baca nama graf yang mau dibaca
-graphName = input("Masukkan nama graf input: ")
-# graphName = "MapITB"
-print()
+"""
+FUNCTIONS
+"""
+def welcomeMessage():
+  print("=========================")
+  print("=     A* Pathfinder     =")
+  print("=========================")
 
-# Baca input simpul awal dan akhir
-start = input("Masukkan simpul awal: ")
-# start = "Scoop and Skoops"
-end = input("Masukkan simpul tujuan: ")
-# end = "Galaksi Bima Sakti"
-print()
+def getGraphInput():
+  # Baca nama graf yang mau dibaca
+  graphName = input("Masukkan nama graf input (tanpa ekstensi file): ")
+  # graphName = "MapITB"
+  print()
 
-# Buat graf dari nama graf input
-g = makeGraphFromTxt(graphName, end)
-# g.printGraph()
+  g = showGraphNode(graphName)
 
-# Cari node start dan end
-startNode = g.findNode(start)
-endNode = g.findNode(end)
+  # Baca input simpul awal dan akhir
+  start = input("Masukkan nama simpul awal: ")
+  while (start not in g.getAllNodeName()):
+    print("Nama simpul tidak ditemukan!")
+    start = input("Masukkan nama simpul awal: ")
+    # start = "Scoop and Skoops"
 
-# Make priority queue to store nodes
-q = queue.PriorityQueue()
+  end = input("Masukkan nama simpul tujuan: ")
+  while (end not in g.getAllNodeName()):
+    print("Nama simpul tidak ditemukan!")
+    end = input("Masukkan nama simpul tujuan: ")
+    # end = "Galaksi Bima Sakti"
 
-# Deklarasikan dictionary kosong untuk rekam jejak parent dan rekam jejak total
-# jarak kumulatif yang paling singkat untuk ke node tertentu
-jalur = {}
-kumulatifMeter = {}
+  print()
+  return graphName, start, end
 
-# Inisiasi dengan none, karena parent dari starting node tidak ada, dan 0.0
-# untuk jarak kumulatif, karena jarak dari start ke start adalah 0
-jalur[start] = None
-kumulatifMeter[start] = 0.0
+"""
+MAIN PROGRAM
+"""
+welcomeMessage()
+exit = False
 
-# Set starting node
-q.put((0, start))
+while (not exit):
+  graphName, start, end = getGraphInput()
 
-# Inisiasikan currNodeName dengan nilai acak agar bisa masuk ke loop
-currNodeName = -999
+  # Buat graf dari nama graf input
+  g = makeGraphFromTxt(graphName, end)
 
-# jalankan loop asalkan belum sampai tujuan atau masih ada elemen prioqueue
-while (q.qsize() > 0 and currNodeName != end):
-    (currPrio, currNodeName) = q.get()
+  # Cari node start dan end
+  startNode = g.findNode(start)
+  endNode = g.findNode(end)
 
-    for nextNodeName in g.findNode(currNodeName).neighbors:
-        addedMeter = kumulatifMeter[currNodeName] + g.findNode(
-            currNodeName).neighbors[nextNodeName]
+  # Make priority queue to store nodes
+  q = queue.PriorityQueue()
 
-        # menambahkan kumulatifMeter baru apabila belum ada dictionary key : nextNodeName
-        if (not (nextNodeName in kumulatifMeter)):
-            # menambahkan kumulatifMeter baru
-            kumulatifMeter[nextNodeName] = addedMeter
+  # Deklarasikan dictionary kosong untuk rekam jejak parent dan rekam jejak total
+  # jarak kumulatif yang paling singkat untuk ke node tertentu
+  jalur = {}
+  kumulatifMeter = {}
 
-            # prioritas untuk nextNodeName dikalkulasi dengan menambahkan addedMeter dan nilai
-            # heuristik nextNodeName
-            nextPrio = addedMeter + g.findNode(nextNodeName).heuristik
+  # Inisiasi dengan none, karena parent dari starting node tidak ada, dan 0.0
+  # untuk jarak kumulatif, karena jarak dari start ke start adalah 0
+  jalur[start] = None
+  kumulatifMeter[start] = 0.0
 
-            # memasukan prio dan nama node ke dalam prioqueue
-            q.put((nextPrio, nextNodeName))
+  # Set starting node
+  q.put((0, start))
 
-            # menambahkan riwayat jalur
-            jalur[nextNodeName] = currNodeName
+  # Inisiasikan currNodeName dengan nilai acak agar bisa masuk ke loop
+  currNodeName = -999
 
-        # menambahkan kumulatifMeter baru apabila kumulatifMeter yang sebelumnya
-        # ternyata tidak optimal
-        if (addedMeter < kumulatifMeter[nextNodeName]):
-            # menambahkan kumulatifMeter baru
-            kumulatifMeter[nextNodeName] = addedMeter
+  # jalankan loop asalkan belum sampai tujuan atau masih ada elemen prioqueue
+  while (q.qsize() > 0 and currNodeName != end):
+      (currPrio, currNodeName) = q.get()
 
-            # prioritas untuk nextNodeName dikalkulasi dengan menambahkan addedMeter dan nilai
-            # heuristik nextNodeName
-            nextPrio = addedMeter + g.findNode(nextNodeName).heuristik
+      for nextNodeName in g.findNode(currNodeName).neighbors:
+          addedMeter = kumulatifMeter[currNodeName] + g.findNode(
+              currNodeName).neighbors[nextNodeName]
 
-            # memasukan prio dan nama node ke dalam prioqueue
-            q.put((nextPrio, nextNodeName))
+          # menambahkan kumulatifMeter baru apabila belum ada dictionary key : nextNodeName
+          if (not (nextNodeName in kumulatifMeter)):
+              # menambahkan kumulatifMeter baru
+              kumulatifMeter[nextNodeName] = addedMeter
 
-            # menambahkan riwayat jalur
-            jalur[nextNodeName] = currNodeName
+              # prioritas untuk nextNodeName dikalkulasi dengan menambahkan addedMeter dan nilai
+              # heuristik nextNodeName
+              nextPrio = addedMeter + g.findNode(nextNodeName).heuristik
 
-# skema pencetakan hasil
-if (currNodeName == end):
-    # mencetak jarak terpendek antar node awal dan tujuan
-    print(f"Jarak terpendek dari {start} ke {end}: {kumulatifMeter[end]}\n")
-    print("Lintasan:")
+              # memasukan prio dan nama node ke dalam prioqueue
+              q.put((nextPrio, nextNodeName))
 
-    # list untuk nanti dibalikan
-    reverseDirection = []
+              # menambahkan riwayat jalur
+              jalur[nextNodeName] = currNodeName
 
-    # iterasi mulai dari element parent ending node
-    iterPrint = jalur[end]
+          # menambahkan kumulatifMeter baru apabila kumulatifMeter yang sebelumnya
+          # ternyata tidak optimal
+          if (addedMeter < kumulatifMeter[nextNodeName]):
+              # menambahkan kumulatifMeter baru
+              kumulatifMeter[nextNodeName] = addedMeter
 
-    # selagi belum none (iterprint merupakan elemen parent dari starting node)
-    while (iterPrint != None):
-        # append ke list kemudian iterasikan berikutnya
-        reverseDirection.append(iterPrint)
-        iterPrint = jalur[iterPrint]
+              # prioritas untuk nextNodeName dikalkulasi dengan menambahkan addedMeter dan nilai
+              # heuristik nextNodeName
+              nextPrio = addedMeter + g.findNode(nextNodeName).heuristik
 
-    # print array dengan orientasi reverse agar dari node awal-tujuan
-    for nodeName in reversed(reverseDirection):
-        print(nodeName, end=" → ")
+              # memasukan prio dan nama node ke dalam prioqueue
+              q.put((nextPrio, nextNodeName))
 
-    # node tujuan
-    print(end, end="\n\n")
+              # menambahkan riwayat jalur
+              jalur[nextNodeName] = currNodeName
 
-# apabila tidak ditemukan jalur
-else:
-    # cetak tidak ada jalur
-    print(f"Tidak ada jalur yang menghubungi {start} dan {end}\n")
+  # skema pencetakan hasil
+  if (currNodeName == end):
+      # mencetak jarak terpendek antar node awal dan tujuan
+      print(f"Jarak terpendek dari {start} ke {end}: {kumulatifMeter[end]} meter \n")
+      print("Lintasan:")
+
+      # list untuk nanti dibalikan
+      reverseDirection = []
+
+      # iterasi mulai dari element parent ending node
+      iterPrint = jalur[end]
+
+      # selagi belum none (iterprint merupakan elemen parent dari starting node)
+      while (iterPrint != None):
+          # append ke list kemudian iterasikan berikutnya
+          reverseDirection.append(iterPrint)
+          iterPrint = jalur[iterPrint]
+
+      # print array dengan orientasi reverse agar dari node awal-tujuan
+      for nodeName in reversed(reverseDirection):
+          print(nodeName, end=" → ")
+
+      # node tujuan
+      print(end, end="\n\n")
+
+  # apabila tidak ditemukan jalur
+  else:
+      # cetak tidak ada jalur
+      print(f"Tidak ada jalur yang menghubungi {start} dan {end}\n")
+
+  # exit
+  exitChoice = input("Apakah anda ingin membaca file lain? (Y/N) : ")
+
+  if (exitChoice == "N" or exitChoice == "n"):
+    exit = True
+
+print("Terima kasih!")
 
 # CORETAN HAMPIRRR
 '''

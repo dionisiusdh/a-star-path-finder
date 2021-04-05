@@ -2,7 +2,7 @@
 Definisi kelas Graph dan method yang berhubungan dengan pemrosesan graph
 """
 from node import *
-
+import os
 
 class Graph:
     def __init__(self, size):
@@ -54,14 +54,19 @@ class Graph:
         return res
 
 def makeGraphFromTxt(file_name, end):
+    # Get current path
+    currpath = str(os.getcwd()).split('\\')
+
     # Membuat graph dari file eksternal .txt
     # Variabel
     lines = []
     all_nodes = []
 
-    # Open dan read file
-    # f = open(f"../test/{file_name}.txt", "r")
-    f = open(f"./test/{file_name}.txt", "r")
+    # Open dan read file berdasarkan current path
+    if (currpath[len(currpath)-1] in ["src", "bin"]):
+        f = open(f"../test/{file_name}.txt", "r")
+    else:
+        f = open(f"./test/{file_name}.txt", "r")
 
     # Iterate line file
     lines = f.readlines()
@@ -112,13 +117,18 @@ def makeGraphFromTxt(file_name, end):
 def showGraphNode(file_name):
     # Membuat graph dari file eksternal .txt
     # dan mengoutput semua node yang tersedia
+    # Get current path
+    currpath = str(os.getcwd()).split('\\')
+
     # Variabel
     lines = []
     all_nodes = []
 
-    # Open dan read file
-    # f = open(f"../test/{file_name}.txt", "r")
-    f = open(f"./test/{file_name}.txt", "r")
+    # Open dan read file berdasarkan current path
+    if (currpath[len(currpath)-1] in ["src", "bin"]):
+        f = open(f"../test/{file_name}.txt", "r")
+    else:
+        f = open(f"./test/{file_name}.txt", "r")
 
     # Iterate line file
     lines = f.readlines()

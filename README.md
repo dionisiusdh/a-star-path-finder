@@ -22,6 +22,6 @@ pip install networkx
 pip install matplotlib
 ```
 4. Pastikan struktur folder sama dan tidak ada yang berubah terutama file data test yang digunakan dapat ditaruh dalam folder ```./test/``` atau menggunakan data test yang sudah ada
-5. Pada saat anda menjalankan program, pastikan anda berada dalam folder ```./src``` atau ```./bin```
+5. Untuk menjalankan program, eksekusi file ```main.py``` pada ```./src``` atau ```./bin```
 
 ## Thank you

@@ -144,11 +144,12 @@ while (not exit):
   # Visualisasi graph
   visualize(g, reversed(reverseDirection))
 
+  exit = True
   # exit
-  exitChoice = input("Apakah anda ingin membaca file lain? (Y/N) : ")
+  # exitChoice = input("Apakah anda ingin membaca file lain? (Y/N) : ")
 
-  if (exitChoice == "N" or exitChoice == "n"):
-    exit = True
+  # if (exitChoice == "N" or exitChoice == "n"):
+  #   exit = True
 
 print("Terima kasih!")
 

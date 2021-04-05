@@ -14,21 +14,18 @@ def welcomeMessage():
 def getGraphInput():
   # Baca nama graf yang mau dibaca
   graphName = input("Masukkan nama graf input (tanpa ekstensi file): ")
-  # graphName = "MapITB"
   print()
 
   g = showGraphNode(graphName)
 
   # Baca input simpul awal dan akhir
   start = input("Masukkan nama simpul awal: ")
-  # start = "Scoop and Skoops"
 
   while (start not in g.getAllNodeName()):
     print("Nama simpul tidak ditemukan!")
     start = input("Masukkan nama simpul awal: ")
 
   end = input("Masukkan nama simpul tujuan: ")
-  # end = "PSTNT Batan"
   
   while (end not in g.getAllNodeName()):
     print("Nama simpul tidak ditemukan!")

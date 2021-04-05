@@ -7,8 +7,7 @@ import os
 class Graph:
     def __init__(self, size):
         self.nodes = []
-        self.adjm = [
-        ]  #[[0 for j in range(size)] for i in range(size)] # Adjacency matrix
+        self.adjm = []
 
     def addNode(self, N):
         # Menambahkan node N ke Graph

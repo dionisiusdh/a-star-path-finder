@@ -13,22 +13,22 @@ def welcomeMessage():
 
 def getGraphInput():
   # Baca nama graf yang mau dibaca
-  # graphName = input("Masukkan nama graf input (tanpa ekstensi file): ")
-  graphName = "MapITB"
+  graphName = input("Masukkan nama graf input (tanpa ekstensi file): ")
+  # graphName = "MapITB"
   print()
 
   g = showGraphNode(graphName)
 
   # Baca input simpul awal dan akhir
-  # start = input("Masukkan nama simpul awal: ")
-  start = "Scoop and Skoops"
+  start = input("Masukkan nama simpul awal: ")
+  # start = "Scoop and Skoops"
 
   while (start not in g.getAllNodeName()):
     print("Nama simpul tidak ditemukan!")
     start = input("Masukkan nama simpul awal: ")
 
-  # end = input("Masukkan nama simpul tujuan: ")
-  end = "PSTNT Batan"
+  end = input("Masukkan nama simpul tujuan: ")
+  # end = "PSTNT Batan"
   
   while (end not in g.getAllNodeName()):
     print("Nama simpul tidak ditemukan!")
@@ -136,20 +136,22 @@ while (not exit):
       # node tujuan
       print(end, end="\n\n")
 
+      # Visualisasi graph
+      full_path = list(reversed(reverseDirection))
+      full_path.append(end)
+      
+      visualize(g, full_path)
+
   # apabila tidak ditemukan jalur
   else:
       # cetak tidak ada jalur
       print(f"Tidak ada jalur yang menghubungi {start} dan {end}\n")
 
-  # Visualisasi graph
-  visualize(g, reversed(reverseDirection))
-
-  exit = True
   # exit
-  # exitChoice = input("Apakah anda ingin membaca file lain? (Y/N) : ")
+  exitChoice = input("Apakah anda ingin membaca file lain? (Y/N) : ")
 
-  # if (exitChoice == "N" or exitChoice == "n"):
-  #   exit = True
+  if (exitChoice == "N" or exitChoice == "n"):
+    exit = True
 
 print("Terima kasih!")
 

@@ -1,6 +1,7 @@
 import queue
 from graph import *
 from node import *
+from visualizer import *
 
 """
 FUNCTIONS
@@ -12,24 +13,26 @@ def welcomeMessage():
 
 def getGraphInput():
   # Baca nama graf yang mau dibaca
-  graphName = input("Masukkan nama graf input (tanpa ekstensi file): ")
-  # graphName = "MapITB"
+  # graphName = input("Masukkan nama graf input (tanpa ekstensi file): ")
+  graphName = "MapITB"
   print()
 
   g = showGraphNode(graphName)
 
   # Baca input simpul awal dan akhir
-  start = input("Masukkan nama simpul awal: ")
+  # start = input("Masukkan nama simpul awal: ")
+  start = "Scoop and Skoops"
+
   while (start not in g.getAllNodeName()):
     print("Nama simpul tidak ditemukan!")
     start = input("Masukkan nama simpul awal: ")
-    # start = "Scoop and Skoops"
 
-  end = input("Masukkan nama simpul tujuan: ")
+  # end = input("Masukkan nama simpul tujuan: ")
+  end = "PSTNT Batan"
+  
   while (end not in g.getAllNodeName()):
     print("Nama simpul tidak ditemukan!")
     end = input("Masukkan nama simpul tujuan: ")
-    # end = "Galaksi Bima Sakti"
 
   print()
   return graphName, start, end
@@ -137,6 +140,9 @@ while (not exit):
   else:
       # cetak tidak ada jalur
       print(f"Tidak ada jalur yang menghubungi {start} dan {end}\n")
+
+  # Visualisasi graph
+  visualize(g, reversed(reverseDirection))
 
   # exit
   exitChoice = input("Apakah anda ingin membaca file lain? (Y/N) : ")

@@ -4,12 +4,12 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 
-def visualize(graph, path):
+def visualize(graph, path, dist):
     # melakukan visualisasi dari sebuah graph
     # sekaligus memvisualisasikan path dari algoritma A*
     
     # Matplotlib figure
-    plt.figure(figsize=(8,6))
+    plt.figure(figsize=(8,7))
     plt.margins(.2, .2)
     plt.tight_layout()
 
@@ -103,5 +103,7 @@ def visualize(graph, path):
 
     nx.draw_networkx_labels(G,pos,labels,font_size=7)
 
+    # Set title
+    plt.title(f"{start[0]} - {end[0]} : " + "%.2f"%dist + " m", x=0.4, y=0.95)
     # Show
     plt.show()
